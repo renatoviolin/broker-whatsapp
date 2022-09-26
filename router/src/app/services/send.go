@@ -5,6 +5,7 @@ import (
 	"broker/infra/http_client"
 	"encoding/json"
 	"errors"
+	"os"
 )
 
 var (
@@ -21,7 +22,7 @@ func NewSendService(httpClient http_client.Client) Sender {
 	}
 }
 
-var URL = "https://graph.facebook.com/v12.0/102261592636695/messages?access_token=EAAH5GKHVwZAgBALF4jZC7rJyZB3WkWFdZB7DZB6nApUamPRWMMtFYEaJZCr8nnYsCCun0ZAOBpvmeZCCHZAqJcESdlUXHI32mkWw77NHhZAxI3Pfyu9atWv1LyQ9gpLGlr5hYxuuUGW0xmZC2zbCXfwjWZAY3pmTfqZAjwgZBFdUsJBlZCUB39CBrOpiToMMCmR7TbnHQrIsmGNB1CxggZDZD"
+var URL = "https://graph.facebook.com/v12.0/102261592636695/messages?access_token=" + os.Getenv("WHATSAPP_ACCESS_TOKEN")
 
 func (h *Sender) SendText(text string, to string) error {
 	payload, err := entity.NewTextPayload(text, to)
