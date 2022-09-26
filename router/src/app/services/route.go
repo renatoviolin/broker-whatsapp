@@ -58,7 +58,9 @@ func (h *RouterService) ExecuteRouter(input dto.WebhookInput) error {
 
 	text, _ := h.GetWhatsappResponseText(input)
 	if text == "sair" {
-		h.redis.Delete(waID)
+		if err = h.UpdateStatus(waID, ROUTER_ID, origin); err != nil {
+			return err
+		}
 		if err := h.sender.SendText("Saindo....", waID); err != nil {
 			logger.Error("router", "generate-menu", err.Error())
 			return err

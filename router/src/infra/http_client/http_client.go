@@ -24,7 +24,6 @@ func (h *Client) Post(url string, bodyRequest []byte) (body []byte, statusCode i
 	req.Header.Add("Content-Type", "application/json")
 	req.Close = true
 	if err != nil {
-		fmt.Println(err.Error())
 		logger.Error("http_client", "post", fmt.Sprintf("could not create request: %s", err))
 		return []byte{}, 500, err
 	}

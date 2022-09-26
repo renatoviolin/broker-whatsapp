@@ -14,15 +14,15 @@ var (
 
 type Sender struct {
 	httpClient http_client.Client
+	Url        string
 }
 
 func NewSendService(httpClient http_client.Client) Sender {
 	return Sender{
 		httpClient: httpClient,
+		Url:        "https://graph.facebook.com/v12.0/102261592636695/messages?access_token=" + os.Getenv("WHATSAPP_ACCESS_TOKEN"),
 	}
 }
-
-var URL = "https://graph.facebook.com/v12.0/102261592636695/messages?access_token=" + os.Getenv("WHATSAPP_ACCESS_TOKEN")
 
 func (h *Sender) SendText(text string, to string) error {
 	payload, err := entity.NewTextPayload(text, to)
@@ -31,7 +31,7 @@ func (h *Sender) SendText(text string, to string) error {
 	}
 
 	bytePayload, _ := json.Marshal(payload)
-	_, statusCode, err := h.httpClient.Post(URL, bytePayload)
+	_, statusCode, err := h.httpClient.Post(h.Url, bytePayload)
 	if err != nil {
 		return err
 	}
@@ -47,7 +47,7 @@ func (h *Sender) SendList(body string, rows []entity.Row, to string) error {
 		return err
 	}
 	bytePayload, _ := json.Marshal(payload)
-	_, statusCode, err := h.httpClient.Post(URL, bytePayload)
+	_, statusCode, err := h.httpClient.Post(h.Url, bytePayload)
 	if err != nil {
 		return err
 	}

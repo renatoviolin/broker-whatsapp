@@ -24,6 +24,7 @@ func NewHttpServer(webhookController controllers.WebhookController) HttpServer {
 }
 
 func (h *HttpServer) StartServer(port string) {
+	// if err := h.gin.RunTLS(fmt.Sprintf("0.0.0.0:%s", port), "./certs/fullchain17.pem", "./certs/privkey17.pem"); err != nil {
 	if err := h.gin.Run(fmt.Sprintf("0.0.0.0:%s", port)); err != nil {
 		logger.Fatal("router", "StartServer", fmt.Sprintf("%v", err))
 	}
